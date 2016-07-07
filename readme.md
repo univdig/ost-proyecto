@@ -29,3 +29,8 @@ siguientes caracteristicas.
 4. El repositorio tiene que tener pull request.
 5. El repositorio tiene que tener algun archivo de texto indicando lo que
    hicieron para lograr el objetivo final del proyecto.
+
+   Este documento veanlo como si fuera un **Tuturial** de como hacer este
+   proyecto. En pocas palabras, *van hacer un* **Tutorial** para alguien que
+   *no sabe nada de Linux* y pueda crear **3 maquinas virtuales que se puedan
+   ver entre si,** y que tengan las *caracteristicas* antes mensionadas.
