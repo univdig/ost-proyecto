@@ -39,6 +39,68 @@ El comando pull de docker descargar una imagen del repositorio oficial de docker
 
 Descargaremos un numero de imagenes que nos ayudaran en nuestro proposito
 
+docker pull ubuntu:latest
+docker pull mysql:latest
+docker pull stilliard/pure-ftpd:hardened
+
+Una vez hayamos descargado las imagenes podemos ver un listado de las que tenemos disponibles corriendo el comando
+
+docker images
+
+####Corriendo los contenedores de docker
+
+Utilizaremos el siguiente comando para correr nuestros contenedores ya sea de manera activa o "detached"
+
+Un rapido ejemplo para comprobar que funciona nuestra imagen seria
+
+docker run ubuntu /bin/echo hello world
+
+Nuestra container dejaria de correr al finalzar la impresion de hello world
+
+Podemos checar el estado de los contenedores que tenemos corriendo con el comando 
+
+docker ps
+
+Para checar todo el listado de contenedores incluso los que se cerraron agregamos el para metro -a, nos puede servir para el debug
+
+docker ps -a
+
+####Commit de containers
+
+Es importante hacer commit de los cambios que hagamos en nuestros contenedores para poder seguir trabajando con ellos posteriormente sin perder la configuracion, aplicaciones o servicios que le instalamos
+
+Para hacer esto, debe de lanzarse otra terminal aparte de donde esta corriendo de manera activa nuestro contenedor.
+
+En la nueva terminal lo que haremos sera correr el comando 
+
+docker ps
+
+Obtendremos un resultado similar al mencionado abajo, apartir de ahi podemos obtener el valor de CONTAINER ID que podemo utilizar para darle commit a nuestra imagen personalizada a partir de nuestro contenedor
+
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+0fee918ef65e        ubuntu              "/bin/bash"         9 seconds ago       Up 4 seconds                            sleepy_mestorf
+
+docker commit 0fee918ef65e ubuntu/personal
+
+Con el comando de arriba se guardara una imagen con la configuracion del container activo
+
+####Maquina 1
+
+Para crear nuestra maquina con servidor ssh/apache, utilizaremos la imagen de ubuntu, para poder utilizarla desde el prompt de bash usaremos el siguiente comando
+
+docker run -t -i ubuntu /bin/bash
+
+Con los parametros -t -i nos permitira correr el contenedor como una VM tradicional mientras se mantenga corriendo el prompt de bash.
+
+Acontinuacion correremos los comandos para actualizar e instalar apache
+
+apt-get update
+apt-get install apache2
+
+
+
+
+
 
 
 
