@@ -1,5 +1,6 @@
 
 Tutorial: Como crear 3 VM que con las siguientes caracteristicas: Apache/ssh, DB/ssh y ftp/ssh.
+Autor: Ayax Anguiano
 
 ####Preambulo
 Este documento te dara los pasos a seguir para poder crear 3 VMS con las caracteristicas antes mencionadas.
