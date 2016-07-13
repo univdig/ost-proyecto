@@ -109,6 +109,10 @@ Podemos instalar las net-tools para obtener facilmente nuestro ip.
 
 apt-get install net-tools
 
+Instalaremos curl
+
+apt-get curl
+
 Iniciamos el servicio de apache
 
 /etc/init.d/apache2 start
@@ -134,15 +138,44 @@ E instalamos el servidor de openssh
 
 apt-get install openssh-server
 
-Por ultimo instalamos el net-tools para checar nuestro ip address
+Por ultimo instalamos el net-tools para checar nuestro ip address asi como curl
 
 apt-get net-tools
+apt-get curl
 
 Damos commit a nuestra maquina 2.
 
 ###Maquina 3
 
-Correremos la imagen de que tiene el servidor 
+Correremos la imagen de que tiene el servidor mysql
+
+docker run --name db_server -e MYSQL_ROOT_PASSWORD=password123 -d mysql:latest
+
+docker exec -it db_server /bin/bash
+
+Una vez instalemos los paquetes de curl, openssh-server y net-tools podemos darle commit a esta maquina.
+
+####Conexion entre contenedores.
+
+Para realizar la conexion entre contenederos corremos cada uno de ellos con la imagen que le dimos commit, pero a su vez attach, en tres distintas terminales
+
+Ejemplo
+
+docker run -itd --name=maquina1 db_server /bin/bash
+
+docker attach db_server
+
+Probaremos la conexion a cada uno de los contenedores con la aplicacion curl, habiendo obtenido el ip address de cada una de nuestras instancias con el comando ifconfig
+
+curl 172.17.0.3
+
+Obtendremos una salida satisfactoria, lo que nos indica la interconexion entre contenedores.
+
+####Credito
+
+Cualquier duda contactame en 
+
+eh.dillinger@gmail.com
 
 
 
