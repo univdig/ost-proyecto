@@ -1,0 +1,45 @@
+
+Tutorial: Como crear 3 VM que con las siguientes caracteristicas: Apache/ssh, DB/ssh y ftp/ssh.
+
+####Preambulo
+Este documento te dara los pasos a seguir para poder crear 3 VMS con las caracteristicas antes mencionadas.
+
+####Pre-requisitos
+.Arch Linux x86_x64 - docker no es soportado para arquitecturas i686.
+.Acceso root - Cuando el comando sudo sea requerido sera requerido que ingreses tu contrasena de root.
+.pacman - El package manager de Arch Linux
+
+####Paquetes
+.docker
+.docker-compose
+.opensshd
+.curl
+
+####Installando docker
+Abre la terminal de tu preferencia, y ejecuta el siguiente comando
+
+sudo pacman -S docker
+
+Una vez docker haya sido instalado correctamente tenemos que habilitar el servicio con el siguiente comando
+
+systemctl start docker.service
+
+Para comprobar que el servicio de docker este activo correremos el siguiente comando
+
+systemctl status docker.service
+
+Agregate al grupo de usuarios de docker para poder ejecutar docker sin necesidad de ser root con el siguiente comando (reemplaza user con el usuario deseado)
+
+gpasswd -a user docker
+
+Una vez realizado este paso deslogeate de tu sesion, la proxima vez que inicies sesion seras parte del grupo docker y podras utilizarlo sin necesidad de ser root
+
+####Decarga de imagenes base docker.
+El comando pull de docker descargar una imagen del repositorio oficial de docker, hay una larga lista de estas imagenes a las que se les da mantenimiento constantemente esto nos facilita mucho el trabajo.
+
+Descargaremos un numero de imagenes que nos ayudaran en nuestro proposito
+
+
+
+
+
