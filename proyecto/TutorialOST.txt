@@ -1,0 +1,184 @@
+
+Tutorial: Como crear 3 VM que con las siguientes caracteristicas: Apache/ssh, DB/ssh y ftp/ssh.
+Autor: Ayax Anguiano
+
+####Preambulo
+Este documento te dara los pasos a seguir para poder crear 3 VMS con las caracteristicas antes mencionadas.
+
+####Pre-requisitos
+.Arch Linux x86_x64 - docker no es soportado para arquitecturas i686.
+.Acceso root - Cuando el comando sudo sea requerido sera requerido que ingreses tu contrasena de root.
+.pacman - El package manager de Arch Linux
+
+####Paquetes
+.docker
+.docker-compose
+.opensshd
+.curl
+
+####Installando docker
+Abre la terminal de tu preferencia, y ejecuta el siguiente comando
+
+sudo pacman -S docker
+
+Una vez docker haya sido instalado correctamente tenemos que habilitar el servicio con el siguiente comando
+
+systemctl start docker.service
+
+Para comprobar que el servicio de docker este activo correremos el siguiente comando
+
+systemctl status docker.service
+
+Agregate al grupo de usuarios de docker para poder ejecutar docker sin necesidad de ser root con el siguiente comando (reemplaza user con el usuario deseado)
+
+gpasswd -a user docker
+
+Una vez realizado este paso deslogeate de tu sesion, la proxima vez que inicies sesion seras parte del grupo docker y podras utilizarlo sin necesidad de ser root
+
+####Decarga de imagenes base docker.
+El comando pull de docker descargar una imagen del repositorio oficial de docker, hay una larga lista de estas imagenes a las que se les da mantenimiento constantemente esto nos facilita mucho el trabajo.
+
+Descargaremos un numero de imagenes que nos ayudaran en nuestro proposito
+
+docker pull ubuntu:latest
+docker pull mysql:latest
+docker pull stilliard/pure-ftpd:hardened
+
+Una vez hayamos descargado las imagenes podemos ver un listado de las que tenemos disponibles corriendo el comando
+
+docker images
+
+####Corriendo los contenedores de docker
+
+Utilizaremos el siguiente comando para correr nuestros contenedores ya sea de manera activa o "detached"
+
+Un rapido ejemplo para comprobar que funciona nuestra imagen seria
+
+docker run ubuntu /bin/echo hello world
+
+Nuestra container dejaria de correr al finalzar la impresion de hello world
+
+Podemos checar el estado de los contenedores que tenemos corriendo con el comando 
+
+docker ps
+
+Para checar todo el listado de contenedores incluso los que se cerraron agregamos el para metro -a, nos puede servir para el debug
+
+docker ps -a
+
+####Commit de containers
+
+Es importante hacer commit de los cambios que hagamos en nuestros contenedores para poder seguir trabajando con ellos posteriormente sin perder la configuracion, aplicaciones o servicios que le instalamos
+
+Para hacer esto, debe de lanzarse otra terminal aparte de donde esta corriendo de manera activa nuestro contenedor.
+
+En la nueva terminal lo que haremos sera correr el comando 
+
+docker ps
+
+Obtendremos un resultado similar al mencionado abajo, apartir de ahi podemos obtener el valor de CONTAINER ID que podemo utilizar para darle commit a nuestra imagen personalizada a partir de nuestro contenedor
+
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+0fee918ef65e        ubuntu              "/bin/bash"         9 seconds ago       Up 4 seconds                            sleepy_mestorf
+
+docker commit 0fee918ef65e ubuntu/personal
+
+Con el comando de arriba se guardara una imagen con la configuracion del container activo
+
+####Maquina 1
+
+Para crear nuestra maquina con servidor ssh/apache, utilizaremos la imagen de ubuntu, para poder utilizarla desde el prompt de bash usaremos el siguiente comando
+
+docker run -t -i ubuntu /bin/bash
+
+Con los parametros -t -i nos permitira correr el contenedor como una VM tradicional mientras se mantenga corriendo el prompt de bash.
+
+Acontinuacion correremos los comandos para actualizar e instalar apache
+
+apt-get update
+apt-get install apache2
+
+Tambien necesitamos curl para poder checar si es que nuestro server esta activo
+
+apt-get install curl
+
+Tambien instalaremos el servidor de SSH
+
+apt-get install openssh-server
+
+Podemos instalar las net-tools para obtener facilmente nuestro ip.
+
+apt-get install net-tools
+
+Instalaremos curl
+
+apt-get curl
+
+Iniciamos el servicio de apache
+
+/etc/init.d/apache2 start
+
+Ahora podemos cerrar el container y hacerle commit.
+
+
+###Maquina 2
+
+Ahora correremos la imagen que tiene el servidor sudo
+
+docker run -d  --name ftp_server -p21:21 -p 30009:3009-3009 -e "PUBLICHOST=localhost" stilliard/pure-ftpd:hardened
+
+Sigue ejecutar el contenedor
+
+docker exec -it ftp_server /bin/bash
+
+Actualizamos el repo dentro del bash
+
+apt-get update
+
+E instalamos el servidor de openssh
+
+apt-get install openssh-server
+
+Por ultimo instalamos el net-tools para checar nuestro ip address asi como curl
+
+apt-get net-tools
+apt-get curl
+
+Damos commit a nuestra maquina 2.
+
+###Maquina 3
+
+Correremos la imagen de que tiene el servidor mysql
+
+docker run --name db_server -e MYSQL_ROOT_PASSWORD=password123 -d mysql:latest
+
+docker exec -it db_server /bin/bash
+
+Una vez instalemos los paquetes de curl, openssh-server y net-tools podemos darle commit a esta maquina.
+
+####Conexion entre contenedores.
+
+Para realizar la conexion entre contenederos corremos cada uno de ellos con la imagen que le dimos commit, pero a su vez attach, en tres distintas terminales
+
+Ejemplo
+
+docker run -itd --name=maquina1 db_server /bin/bash
+
+docker attach db_server
+
+Probaremos la conexion a cada uno de los contenedores con la aplicacion curl, habiendo obtenido el ip address de cada una de nuestras instancias con el comando ifconfig
+
+curl 172.17.0.3
+
+Obtendremos una salida satisfactoria, lo que nos indica la interconexion entre contenedores.
+
+####Credito
+
+Cualquier duda contactame en 
+
+eh.dillinger@gmail.com
+
+
+
+
+
