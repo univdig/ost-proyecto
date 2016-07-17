@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#Instalar openssh:
+
+sudo apt-get openssh
+
+#Iniciar el demonio openssh:
+
+sudo systemctl start sshd
+
+
+#Instalar ftp:
+
+sudo apt install vsftpd
+
+#Iniciar el demonio ftp:
+
+sudo systemctl restart ftp.service
