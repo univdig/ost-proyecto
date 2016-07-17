@@ -1,3 +1,9 @@
+#Integrantes del equipo:
+#Susana Navarro Ramírez
+#Christian Raúl Zuno Mayoral
+#Marisol Martínez Madrigal
+
+
 # Proyecto final para el programa de OST
 
 Crea tres maquinas virtuales que se puedan ver entre si y que contengan las

@@ -1,0 +1,23 @@
+#How to install:
+
+#The first step to set this is to verify that you can handle virtualization in your machine.
+#To check this run this command:
+
+cat /proc/cpuinfo | grep dmx
+
+#Then, check your kvm with:
+
+ls mod | grep kvm
+
+#If it doesn't print kvm_yourcpu try doing this:
+
+modprobe kvm
+
+
+#After this setup you can run the first script to setup the VM. 
+
+Proyecto.sh
+
+#Then, choose one of the virtual machines to install: ftp, db or apache.
+#When you run that script, open the folder of the machine that you choose.
+#You will find other script there to set up the extra services for your VM.

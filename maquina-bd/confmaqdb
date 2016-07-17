@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#Install openssh:
+
+sudo apt-get openssh
+
+#Start openssh demon:
+
+sudo systemctl start sshd
+
+
+#Install MySQL:
+
+sudo apt-get install mysql-server
+sudo mysql_secure_installation
+
+#Start MySQL demond:
+
+sudo service mysql start

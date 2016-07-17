@@ -1,0 +1,40 @@
+#!/bin/bash
+
+#This script will make and configure a virtual machine to server DB.
+#Note: You can suspend, resume, reboot, shutdown with the following commands:
+#Commands: suspend DB, resume DB, reboot DB, shutdown DB
+#Powered by Zota, Susy & Mari.
+#Support at zuno_systems@hotmail.com, czunomax@gmail.com.
+#Team: Christian Raul Zuno Mayoral, Susana Navarro Ramirez, Marisol Martinez Madrigal
+
+
+
+
+#File to save a virtual machine (can be more than one)
+
+mkdir /var/lib/libvirt/images
+
+
+#Installation of virtual machine
+
+
+echo Making your virtual machine
+echo This can take several minutes
+
+virt-install --connect qemu:///system --name DB
+
+--memory 512MiB --disk 10GiB path=/var/lib/libvirt/images/DB.qcow2,size=10
+
+--vcpus=1 -c /var/lib/libvirt/iso/ubuntu-16.04-desktop-amd64.iso
+
+--vnc --os-type linux 
+
+--network bridge=virbr0 --noautoconsole
+
+--hvm --keymap en
+
+echo Congratulations, you have a virtual machine installed
+
+
+
+
