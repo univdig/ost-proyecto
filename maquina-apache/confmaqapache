@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#Instalar openssh:
+
+sudo apt-get openssh
+
+#Iniciar el demonio openssh:
+
+sudo systemctl start sshd
+
+
+#Instalar Apache:
+
+sudo apt install apache2
+
+#Iniciar el demonio apache:
+
+sudo systemctl restart apache2.service
