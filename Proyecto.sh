@@ -2,7 +2,8 @@
 
 #This script will install The Qemu and their utilities, you will have to write "yes" in all the future questions that the script will ask you.
 #Powered by Zota, Susy & Mari.
-#Support at zuno_systems@hotmail.com, "" & ""
+#Support at zuno_systems@hotmail.com, "czunomax@gmail.com" & ""
+#Team: Christian Raul Zuno Mayoral, Marisol Martinez Madrigal, Susana Navarro Ramirez.
  
 
 
@@ -17,7 +18,7 @@ service libvirtd start
 
 virsh -c qemu:///system
 
-echo Congratulations you have installed the qemu and already conected to the hypervisor.
+echo Congratulations you have installed the qemu and already connected to the hypervisor.
 
 
 
